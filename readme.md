@@ -1,57 +1,77 @@
-# 🏷️ Etiquetas & Inventário
+# 📦 Etiquetas & Inventário
 
-Sistema de controle de inventário com geração de etiquetas, exportação HTML/PDF e autenticação básica.
+Sistema de controle de inventário com geração de etiquetas e QRCode, construído com **FastAPI**, **SQLite** e exportação em **PDF/HTML** via **WeasyPrint**. Ideal para pequenos comércios e controle interno de produtos.
 
-![Badge: Docker](https://img.shields.io/badge/docker-ready-blue)
-![Badge: FastAPI](https://img.shields.io/badge/FastAPI-async--ready-green)
-![Badge: PDF](https://img.shields.io/badge/export-PDF-blue)
-![Badge: Testes](https://img.shields.io/badge/tests-100%25-success)
-
----
-
-## 🚀 Tecnologias
-
-- [x] Python 3.11
-- [x] FastAPI
-- [x] SQLAlchemy + SQLite
-- [x] Jinja2 (HTML)
-- [x] WeasyPrint (PDF)
-- [x] Pytest
-- [x] Docker
-
----
-
-## 📦 Funcionalidades
+## 🚀 Funcionalidades
 
 - ✅ Cadastro de itens com nome, código e quantidade
-- ✅ Listagem de inventário
-- ✅ Exportação das etiquetas em **HTML** ou **PDF**
-- ✅ Proteção com autenticação básica (usuário/senha via `.env`)
-- ✅ Testes automatizados
-- ✅ Dockerização completa
+- 📦 Listagem, atualização e remoção de itens
+- 🖨️ Exportação de etiquetas com QRCode (HTML e PDF)
+- 🔐 Autenticação HTTP Basic nas rotas protegidas
+- 🧪 Testes com cobertura
+- 🐳 Docker e Railway para deploy automático
+
+## 🛠️ Tecnologias
+
+- FastAPI
+- SQLAlchemy Async
+- SQLite
+- WeasyPrint
+- Docker + Docker Compose
+- Railway (deploy)
+- Pytest
+
+## 📦 Instalação local via Docker
+
+```bash
+git clone https://github.com/WallanDavid/etiquetas_inventario.git
+cd etiquetas_inventario
+docker-compose up --build
+```
+
+O app estará disponível em `http://localhost:8000`
+
+## 📫 Endpoints disponíveis
+
+| Método | Rota                  | Autenticação | Descrição                         |
+|--------|-----------------------|--------------|-----------------------------------|
+| POST   | `/items`              | ❌           | Cadastra novo item                |
+| GET    | `/items`              | ❌           | Lista todos os itens              |
+| PUT    | `/items/{codigo}`     | ❌           | Atualiza nome/quantidade          |
+| DELETE | `/items/{codigo}`     | ❌           | Remove item                       |
+| GET    | `/etiquetas`          | ✅ Basic     | Visualiza etiquetas em HTML       |
+| GET    | `/etiquetas/pdf`      | ✅ Basic     | Exporta etiquetas em PDF          |
+
+## 🔐 Credenciais (dev)
+
+```
+Usuário: admin
+Senha: senha123
+```
+
+## 🧪 Executar testes
+
+```bash
+pytest --cov=app --cov-report=term-missing
+```
+
+## 🌍 Deploy
+
+Projeto hospedado gratuitamente via Railway:
+
+👉 https://etiquetasinventario-production.up.railway.app
+
+## 🖼️ Exemplo de etiquetas
+
+```
+<h1>Etiquetas</h1>
++------------------------+
+| Caneta Azul            |
+| [ QRCode ]             |
+| CA456                  |
++------------------------+
+```
 
 ---
 
-## 🛠️ Instalação Local
-
-### 1. Clone o repositório
-```bash
-git clone https://github.com/seu-usuario/etiquetas_inventario.git
-cd etiquetas_inventario
-
-
-2. Crie e ative o ambiente virtual
-python -m venv venv
-venv\Scripts\activate      # Windows
-source venv/bin/activate   # Linux/macOS
-
-
-3. Instale as dependências
-pip install -r requirements.txt
-
-
-4. Rode a API
-uvicorn app.main:app --reload
-
-
-Acesse: http://localhost:8000/docs
+🕓 Última atualização: 2025-06-02
