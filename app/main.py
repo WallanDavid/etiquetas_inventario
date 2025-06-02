@@ -27,6 +27,18 @@ async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+@app.get("/", response_class=HTMLResponse)
+async def home():
+    return """
+    <html>
+        <head><title>API de Etiquetas</title></head>
+        <body>
+            <h1>API de Etiquetas & Inventário</h1>
+            <p>Use os endpoints: <code>/items</code>, <code>/etiquetas</code>, <code>/etiquetas/pdf</code>.</p>
+        </body>
+    </html>
+    """
+
 class ItemCreate(BaseModel):
     nome: str
     codigo: str
@@ -135,16 +147,16 @@ async def exportar_etiquetas(
     </head>
     <body>
         <h1>Etiquetas</h1>
-        <button onclick="window.print()">Imprimir</button>
+        <button onclick=\"window.print()\">Imprimir</button>
     """
 
     for item in itens:
         img_path = Path(f"qrcodes/{item.codigo}.png")
         if img_path.exists():
             html += f"""
-            <div class="etiqueta">
+            <div class=\"etiqueta\">
                 <p><strong>{item.nome}</strong></p>
-                <img src="/static/{item.codigo}.png" alt="QR">
+                <img src=\"/static/{item.codigo}.png\" alt=\"QR\">
                 <p>{item.codigo}</p>
             </div>
             """
@@ -188,9 +200,9 @@ async def exportar_etiquetas_pdf(
         img_path = Path(f"qrcodes/{item.codigo}.png")
         if img_path.exists():
             html += f"""
-            <div class="etiqueta">
+            <div class=\"etiqueta\">
                 <p><strong>{item.nome}</strong></p>
-                <img src="file://{img_path.resolve()}" alt="QR">
+                <img src=\"file://{img_path.resolve()}\" alt=\"QR\">
                 <p>{item.codigo}</p>
             </div>
             """
